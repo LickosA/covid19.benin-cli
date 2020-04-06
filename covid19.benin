@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Desc: Obtenez les dernières statistiques du Bénin sur le coronavirus directement en ligne de commande
+# Author: https://twitter.com/LickosA
+#
+import requests
+from bs4 import BeautifulSoup
+import sys
+import datetime
+
+
+class cli_colors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
+gouvbjpage = requests.get("https://www.gouv.bj/coronavirus/")
+soup = BeautifulSoup(gouvbjpage.content, 'html.parser')
+a = soup.find_all('h2', {"class": ["h1 adapt white alt","h1 adapt white"]})
+x = '<h2 class="h1 adapt white">'
+y = '<h2 class="h1 adapt white alt">'
+z = '</h2>'
+
+def extractN(z,y1,y2,y3):
+    n0 = z.replace(y1,'')
+    n1 = n0.replace(y2,'')
+    n = n1.replace(y3,'')
+    return n
+
+def sysout(output=''):
+    sys.stdout.write(output + '\n')
+
+cas = []
+for i in a:
+    bn = str(i)
+    cas.append(extractN(bn,x,y,z))
+
+sysout("\n")
+sysout(cli_colors.FAIL + 'Cas confirmés\t: ' + '{}'.format(cas[0]))
+sysout(cli_colors.WARNING + 'Sous traitement\t: ' + '{}'.format(cas[1]))
+sysout(cli_colors.OKGREEN + 'Cas guéris\t: ' + '{}'.format(cas[2]))
+sysout(cli_colors.ENDC + 'Décès\t\t: ' + '{}'.format(cas[3]))
+sysout("\nSource: gouv.bj/coronavirus - Date : {}".format(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))) 
+
+
