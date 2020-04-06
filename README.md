@@ -9,13 +9,11 @@ pip3 install -r requirements.txt
 ```
 
 # Obtenir les statistiques
-![](img/img1.png)
-
-
+![](img/img1.png){:height="50%" width="50%"}
 
 # Rendre le script disponible comme une simple commande linux
-![](img/img2.png)
+![](img/img2.png){:height="50%" width="50%"}
 
-#Exécuter la commande
-![](img/img3.png)
+# Exécuter la commande
+![](img/img3.png){:height="50%" width="50%"}
 
