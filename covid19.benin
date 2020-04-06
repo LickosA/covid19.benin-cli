@@ -29,10 +29,7 @@ y = '<h2 class="h1 adapt white alt">'
 z = '</h2>'
 
 def extractN(z,y1,y2,y3):
-    n0 = z.replace(y1,'')
-    n1 = n0.replace(y2,'')
-    n = n1.replace(y3,'')
-    return n
+   return z.replace(y1,'').replace(y2,'').replace(y3,'')
 
 def sysout(output=''):
     sys.stdout.write(output + '\n')
