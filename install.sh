@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define message selection based on LANGUAGE
-lang=$(locale | grep LANGUAGE | cut -d= -f2 | cut -d_ -f1)
+lang=$(locale | grep 'LANG|LANGUAGE' | cut -d= -f2 | cut -d_ -f1)
 if [[ $lang == 'fr' ]]; then
     messages_array[0]="La commande 'covid19.benin' a été installé avec succès!"
     messages_array[1]="L'installation a echoué. Veuillez reesayer avec les droits d'admiministrateur ou le fichier exist deja."
