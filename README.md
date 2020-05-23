@@ -25,13 +25,13 @@ covid19.benin
 ```
 
 # TODO
-- Update source:
-  - https://www.cdc.gov/
-  - https://ourworldindata.org
-  - https://ncov2019.live
-  - www.gouv.bj/coronavirus (Local)
-- Add Cached Result:
-  - Cache lifespan can be modified
-- Show previous result if computer not connected to internet or source unreachable
+- [] Update source:
+  - [] https://www.cdc.gov/
+  - [] https://ourworldindata.org
+  - [] https://ncov2019.live
+  - [] www.gouv.bj/coronavirus (Local)
+- [] Add Cached Result:
+  - [] Cache lifespan can be modified
+- [] Show previous result if computer not connected to internet or source unreachable
 
 By [Lickos](https://twitter.com/LickosA)
