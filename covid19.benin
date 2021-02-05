@@ -3,11 +3,13 @@
 #
 # Desc: Obtenez les dernières statistiques du Bénin sur le coronavirus directement en ligne de commande
 # Author: https://twitter.com/LickosA
+# Edited: mikekenneth - Addedd log format output
 #
 import requests
 from bs4 import BeautifulSoup
 import sys
 import datetime
+import json
 
 
 class cli_colors:
@@ -39,11 +41,55 @@ for i in a:
     bn = str(i)
     cas.append(extractN(bn,x,y,z))
 
-sysout("\n")
-sysout(cli_colors.FAIL + 'Cas confirmés\t: ' + '{}'.format(cas[0]))
-sysout(cli_colors.WARNING + 'Sous traitement\t: ' + '{}'.format(cas[1]))
-sysout(cli_colors.OKGREEN + 'Cas guéris\t: ' + '{}'.format(cas[2]))
-sysout(cli_colors.ENDC + 'Décès\t\t: ' + '{}'.format(cas[3]))
-sysout("\nSource: gouv.bj/coronavirus - Date : {}".format(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))) 
+####################### Definition of Funcions & Co ############################
+# Standard output function
+def standard_out():
+    sysout("\n")
+    sysout(cli_colors.FAIL + 'Cas confirmés\t: ' + '{}'.format(cas[0]))
+    sysout(cli_colors.WARNING + 'Sous traitement\t: ' + '{}'.format(cas[1]))
+    sysout(cli_colors.OKGREEN + 'Cas guéris\t: ' + '{}'.format(cas[2]))
+    sysout(cli_colors.ENDC + 'Décès\t\t: ' + '{}'.format(cas[3]))
+    sysout("\nSource: gouv.bj/coronavirus - Date : {}".format(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")))
 
+# Log formatted (json or csv) function
+def logformat_out(cas: list, outformat: str):
+    final_out: str = ""
+    data_json: dict = {'Datetime': datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") , 'Confirmed': cas[0], 'OnTreatment': cas[1], 'Healed': cas[2], 'Deaths': cas[3]}
+    data_csv: str = "'{}',{},{},{},{}".format(datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S") , cas[0], cas[1], cas[2], cas[3])
 
+    if outformat == 'json':
+        final_out = json.dumps(data_json)
+    elif outformat == 'csv':
+        final_out = data_csv
+
+    return final_out
+
+# Information or HELP function:
+def covid19_info():
+    return """
+    Below are information on the Log formatted outputs:
+    -c, --csv : Print output in CSV format using the below headers
+        CSV format Headers: Datetime, ConfirmedCases, OnTreatment, Healed, Deaths
+
+    -j, --json: Print output in JSON format using the below headers
+    """
+
+# Fundtion to define the type of output
+def covid19_output(in_arg):
+    if in_arg in ('--csv', '-c'):
+        sysout(logformat_out(cas, outformat='csv'))
+    elif in_arg in ('--json', '-j'):
+        sysout(logformat_out(cas, outformat='json'))
+    elif in_arg in ('--help', '-h'):
+        sysout(covid19_info())
+    else:
+        standard_out()
+
+# Execute the main function to print the appropriate output
+input_arg = ""
+try:
+    input_arg = sys.argv[1]
+except IndexError as e :
+    pass
+    
+covid19_output(input_arg)
